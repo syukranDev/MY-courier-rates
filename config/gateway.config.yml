@@ -1,0 +1,54 @@
+http:
+  port: 8900
+  # tls:
+  #   'default':
+  #     key: ssl_cert/mbbs2u-key.pem
+  #     cert: ssl_cert/mbbs2u-cert.pem
+apiEndpoints:
+  auth:
+    host: "*"
+    paths: "/portal/auth/*"
+  courier:
+    host: "*"
+    paths: "/portal/courier/*"
+  
+serviceEndpoints:
+  authService:
+    url: "http://localhost:8901"
+  courierService:
+    url: "http://localhost:8902"
+  
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - proxy
+  - rate-limit
+  
+pipelines:
+  auth:
+    apiEndpoints:
+      - auth
+    policies:
+      - cors:
+          - action:
+              origin: "*"
+              methods: ['GET','POST','PUT','DELETE','HEAD','PATCH']
+              allowedHeaders: [Origin, X-Requested-With, Content-Type, Accept, Authorization]
+              preflightContinue: true
+
+      - proxy:
+          - action:
+              serviceEndpoint: authService
+              # changeOrigin: true
+  courier:
+    apiEndpoints:
+      - courier
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: courierService
+              changeOrigin: true
+  

@@ -25,17 +25,19 @@ J&T Express - via XMLHttpRequest
 Domestic - BWR
 International -  BWR, HKG, SIN, VNM, CHN, THAI, IDN, PHL 
 
-'_token': 'A6UNLNxCC0nlCQkrnKS254VBvBy0xCF3yXbqp6UD',
-'shipping_rates_type': 'domestic',
-'sender_postcode': '42700',
-'receiver_postcode': '42700',
-'destination_country': 'BWN',
-'shipping_type': 'EZ',
-'weight': '10',
-'length': '1',
-'width': '1',
-'height': '1',
-'item_value': ''
+// const data = qs.stringify({
+        // '_token': 'ZUYcDLMuFs8cTaLkUjWZgOkRv94HKuAsSonReRXj',
+        // 'shipping_rates_type': 'domestic',
+        // 'sender_postcode': '42700',
+        // 'receiver_postcode': '42700',
+        // 'destination_country': 'BWN',
+        // 'shipping_type': 'EZ',
+        // 'weight': '10',
+        // 'length': '1',
+        // 'width': '1',
+        // 'height': '1',
+        // 'item_value': ''
+//});
 
 fetch("https://www.jtexpress.my/shipping-rates", {
   "headers": {
