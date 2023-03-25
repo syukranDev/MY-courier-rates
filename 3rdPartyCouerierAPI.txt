@@ -1,0 +1,71 @@
+//=====================================================================
+Citylink - via normal JSON
+
+https://www.citylinkexpress.com/wp-json/wp/v2/getShippingRate
+
+{
+    "origin_country":"MY", 
+    "origin_state": "Kuala Lumpur",
+    "origin_postcode": "42700",
+    "destination_country":"MY",
+    "destination_state":"Perak",
+    "destination_postcode":"32610",
+    "length":"10",
+    "width":"10",
+    "height":"10",
+    "selected_type":"1",
+    "parcel_weight":"10",
+    "document_weight": "0"
+}
+
+
+//=====================================================================
+J&T Express - via XMLHttpRequest
+
+Domestic - BWR
+International -  BWR, HKG, SIN, VNM, CHN, THAI, IDN, PHL 
+
+'_token': 'A6UNLNxCC0nlCQkrnKS254VBvBy0xCF3yXbqp6UD',
+'shipping_rates_type': 'domestic',
+'sender_postcode': '42700',
+'receiver_postcode': '42700',
+'destination_country': 'BWN',
+'shipping_type': 'EZ',
+'weight': '10',
+'length': '1',
+'width': '1',
+'height': '1',
+'item_value': ''
+
+fetch("https://www.jtexpress.my/shipping-rates", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Windows\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest",
+    "cookie": "_ga=GA1.2.1799226497.1678279692; _gid=GA1.2.277345308.1679729433; XSRF-TOKEN=eyJpdiI6IlM0RVZPb09hU3B2WEE4QmlBaXh5Q1E9PSIsInZhbHVlIjoiZGNGTGZndlZiUXJsZkxxNnRWZjMzY1RFWTBwbjZERHBPaHhrSkw4RW04dktLZWZqUEJheEY3UkVCNThSK0F2T2lUM0xKcVFMTTFmV1dQaktQSnpuOG15dmdKQzg4QkRUcmEwSS9oZDZXU3N4QlZVeXRxL05aSGRzQ01WMFMxVFciLCJtYWMiOiJlZjE1YzZjOWJhZTBjNDIxZjE4YzY3MjExOGEwM2MzOTVhNjBlZjg2ZTIxYzNjOTgyMjdiMmY3MDg0ZDdjNDQ1In0%3D; jt_express_malaysia_session=eyJpdiI6IkxFMU5lRjBjQ2FSZDhjSHZZNjVGYXc9PSIsInZhbHVlIjoiWU4vUTVMQ3BQenBKODZtY1MxbXpZRU1mT0Ivb0RNZ3cwNUJQMkJ2NDNPTUNZSkFwWmE5Y01FNkRsYVlHREJKRVZlMkxUNTYwWUVFcHZCT2hoQVV2QzFTVC9FVk9kTER1MWxYa0pJODA2czd5N3hURVR4Sjk1TWVEWVl6bHhPWGciLCJtYWMiOiIzZDY3MjNjNjVjMGNlZDM1M2YzMmY2NmQyZjU2YzM5N2RlZjM1MTJjNjQ4YTZiMzc3MWRmNTUxMDZmMzNiMjVlIn0%3D",
+    "Referer": "https://www.jtexpress.my/shipping-rates",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "body": "_token=A6UNLNxCC0nlCQkrnKS254VBvBy0xCF3yXbqp6UD&shipping_rates_type=domestic&sender_postcode=42700&receiver_postcode=42700&destination_country=BWN&shipping_type=EZ&weight=10&length=1&width=1&height=1&item_value=",
+  "method": "POST"
+});
+
+
+
+
+
+curl --location --request POST 'https://www.jtexpress.my/shipping-rates' \
+--header 'accept: */*' \
+--header 'content-type: application/x-www-form-urlencoded; charset=UTF-8' \
+--header 'x-requested-with: XMLHttpRequest' \
+--header 'Cookie: XSRF-TOKEN=eyJpdiI6IlNoYkFjNDhodFN0U0NiSzdvdjhuMmc9PSIsInZhbHVlIjoiUzJxaVRWb05SQzJPWTJVazBuNWJYcG9GdFVFK2Zsc290elEvSXZKdXZVWGV1empVdkh4ZnFxYkpIOWZseEdjU2ZkbHhIM3NsM3ZoMEh3MlF4TFNNT29ET3pTQWFyeElUSEFydDBReWo4dUpld1dwaURzYmdUUWFQbWZIeFZOcEoiLCJtYWMiOiI2ZGRkNTc4MjkyOTUwYThiNGRhMmMzYzk3NzllNjA0YWM5NzJmMThkNjE4MTU4NzE2MmYxMDQ2MWM2ZTQyZThhIn0%3D; jt_express_malaysia_session=eyJpdiI6IkFtbFZaMzV0eWJzc3FVS2hnYjZnK3c9PSIsInZhbHVlIjoieGs2ZHJUcUd4bWNGV3NkeTdmR0VMTUxlaVV3OGovTEdhZGFhaGc2c3haY3FrS1BFbzVVZWs3Qlg2NnFDSzA2T3FqZUZSMzk1eU80TlBPLy9ENXBGbTdzYVhyNkFOdlloUHVpMlRaZVFCR3pZSXNCcWFkZC8zTG1pcldGc2hBMU4iLCJtYWMiOiIzZTFmZmM3ZjE3NjUyM2Y1NWU2YzhmYmI1MzQyMDJkMDkyYzU0NjM3ODgzYjNmZmRiODc4YjIxMGJhYjM3Njc3In0%3D' \
+--data-raw '_token=A6UNLNxCC0nlCQkrnKS254VBvBy0xCF3yXbqp6UD&shipping_rates_type=domestic&sender_postcode=42700&receiver_postcode=32610&destination_country=BWN&shipping_type=EZ&weight=10&length=1&width=1&height=1&item_value='
