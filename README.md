@@ -40,12 +40,18 @@
 3. Courier Microservices (./microservices/courier/ecosystem.config.js)
 
 How to see logs in real time?
-1. Run: pm2 log _pm2_id_ (get pm2 id by running 'pm2 ls a'
+1. Run: pm2 log pm2_id_goes_here (get pm2 id by running 'pm2 ls a')<br>
 
 How to see logs via files?
 1. Logger saved seperately in microservices/..servicename../logs , logs will start generated once microservices is up.
 
-```
+``` 
+
+<br>
+<p align="center">
+<img src="https://gcdnb.pbrd.co/images/l1oxUsuo5DbU.png?o=1" width="85%">
+<p/><br>
+
 
 ## One-Time Setup (MySQL Database)
 1. Add followings table
