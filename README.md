@@ -95,11 +95,14 @@ you can put any username as you want, if the username is name as what presenteed
 If you dont put token or expired token, unathorized message will be return. Kindly note token generated will expired in 30mins
 2. Put token into Bearer Token header inside /portal/courier/get-rates <br>
 
+Note: If request body is different that what was checked thorughout database then it will fetch new data from external 3rd party courier API and inserted into databse for future querying (caching). (OR if request body is found to be same in database then output will be show database data) <br>
+
 ***Security Implemented*** <br>
 1. Request body validation using Joi <br>
 Any unwanted field in request payload or wrong datatype, will return error response on what field is missing/wrong <br>
+
 <p align="center">
-<img src="[https://gcdnb.pbrd.co/images/qWUx2QVRAo0m.png?o=1](https://gcdnb.pbrd.co/images/wKV8dRCxaTxW.png?o=1)" width="75%">
+<img src="https://gcdnb.pbrd.co/images/wKV8dRCxaTxW.png?o=1" width="75%">
 <p/><br>
 
 2. Usage of protected route<br>
@@ -108,8 +111,17 @@ Token inserted in protected route will be verified via portal/auth/verifyToken, 
 <img src="https://gcdnb.pbrd.co/images/qWUx2QVRAo0m.png?o=1" width="75%">
 <p/><br>
 
+<p align="center">
+<img src="https://gcdnb.pbrd.co/images/6D0gkXaJYJK8.png?o=1" width="75%">
+<p/><br>
+
+
+## Known Bugs 
+1. J&T rates API is using Cookies XSRF Token in its header request as part of their request validation. I am not sure how long the token will be lasts in my API. If my api is failing due to this, you can just manually get the XSRF token from their website and replace it in my codes. No permanent fix this since its being setup from their client side.
+
 ## Future Plans <br>
-Will update accordingly when free.
+1. TDD unit test
+
 
 
 
