@@ -121,7 +121,7 @@ Token inserted in protected route will be verified via portal/auth/verifyToken, 
 
 ## Future Plans <br>
 1. TDD unit test
-
+2. environment config setup
 
 
 
