@@ -12,7 +12,7 @@
 - Logger via winston
 
 **Tech stacks used**<br>
-- NodeJS, ExpressJS, ES6 Javascript, MySQL, numbers of npm modules (see package.json)
+- NodeJS, ExpressJS, ES6 Javascript, MySQL, SwaggerUI & numbers of npm modules (see package.json)
 
 <p align="center">
 <img src="https://gcdnb.pbrd.co/images/jKqd8sA8V6VJ.jpg?o=1" width="75%">
