@@ -4,7 +4,7 @@
 - Meaning to say, let User to connect one port only, gateway will do the port assigning part to user's desired microservices. <br> 
 
 **Aim**: <br>
-- Creating middleware+microservices to get 3rd party courier parcel rates from one API.
+- Creating unified API (gateway + microservices) to get 3rd party courier parcel rates from one single API.
 
 **Security/ Feature Implemented**:
 - Middleware 1: Request body validaton (using Joi modules) 
