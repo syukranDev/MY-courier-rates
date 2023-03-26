@@ -9,7 +9,7 @@
 **Security/ Feature Implemented**:
 - Middleware 1: Request body validaton (using Joi modules) 
 - Middleware 2: Protected route (usage of JWT token) 
-- Logger saved seperately in microservices/..servicename../logs
+- Logger via winston
 
 **Tech stacks used**<br>
 - NodeJS, ExpressJS, ES6 Javascript, MySQL, numbers of npm modules (see package.json)
@@ -35,6 +35,12 @@
 1. Gateway (ecosystem.config.js)
 2. Auth Microservices (./microservices/auth/ecosystem.config.js)
 3. Courier Microservices (./microservices/courier/ecosystem.config.js)
+
+How to see logs in real time?
+1. Run: pm2 log _pm2_id_ (get pm2 id by running 'pm2 ls a'
+
+How to see logs via files?
+1. Logger saved seperately in microservices/..servicename../logs , logs will start generated once microservices is up.
 
 ```
 
@@ -95,7 +101,7 @@ Token inserted in protected route will be verified via portal/auth/verifyToken, 
 
 
 ## Future Plans <br>
-Will update accordingly.
+Will update accordingly when free.
 
 
 
