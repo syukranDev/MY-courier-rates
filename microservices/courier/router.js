@@ -47,9 +47,9 @@ router.route('/testroute')
     })
 
 router.route('/get-rates') 
-    .post(
-        (...args) => authValidation.authValidator(...args),  //Middleware 1 - to protect route with jwt token            :::: @ you can always disable this line if you dont want to test without this middleware
-        (...args) => validation.getCourierRates(...args),    //Middleware 2 - to protect route with req.body validations :::: @ you can always disable this line if you dont want to test without this middleware
+    .post(     
+        (...args) => validation.getCourierRates(...args),    //Middleware 1 - to protect route with req.body validations :::: @ you can always disable this line if you dont want to test without this middleware
+        (...args) => authValidation.authValidator(...args),  //Middleware 2 - to protect route with jwt token            :::: @ you can always disable this line if you dont want to test without this middleware 
         (...args) => controller.getRates(...args)
         )
 
