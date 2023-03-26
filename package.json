@@ -16,6 +16,7 @@
     "express-gateway": "^1.16.11",
     "fast-safe-stringify": "^2.1.1",
     "index.js": "^0.0.3",
+    "joi": "^17.9.1",
     "jsdom": "^21.1.1",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
@@ -29,7 +30,9 @@
     "path": "^0.12.7",
     "querystring": "^0.2.1",
     "request": "^2.88.2",
+    "swagger-ui-express": "^4.6.2",
     "winston": "^3.8.2",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^4.7.1",
+    "yamljs": "^0.3.0"
   }
 }

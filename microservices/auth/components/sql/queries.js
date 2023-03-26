@@ -15,7 +15,6 @@ var refreshToken = (arg) => {
             if (checkUsernameExist.length>0) {
                 const results = JSON.parse(JSON.stringify(checkUsernameExist))
                 if (results[0].username.includes(arg.body.username)) { 
-                    // console.log('1')
                     const auth_token = utils.generateAuthToken(arg.body.username)
                     const query = `UPDATE auth_token SET auth_token = ? WHERE username =?`
     
@@ -23,7 +22,6 @@ var refreshToken = (arg) => {
                     return resolve(auth_token)
                 }
             } else {
-                // console.log('2')
                 const auth_token = utils.generateAuthToken(arg.body.username)
                 data.auth_token = auth_token
 
@@ -33,10 +31,17 @@ var refreshToken = (arg) => {
                 return resolve(auth_token)
             }
         } catch(err) {
+            logger.error({
+                path: "dbQueries/refreshToken/catch",
+                query: query,
+                queryData: data,
+                message: err && err.message,
+                stack: err && err.stack
+            });
             return reject({
                 statusCode: 500,
-                message: err.message
-            })
+                message: "System Error"
+            });
         }
     })
 }
@@ -44,17 +49,35 @@ var refreshToken = (arg) => {
 var clearToken = arg => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('3')
-            
             let query = `UPDATE auth_token SET auth_token = NULL WHERE username =?`
             console.log(arg.body.username)
             await sql.executeQuery(query, arg.body.username).then(()=> {
                 return resolve()
             }).catch(err => {
-                return resolve(err.message)
+                logger.error({
+                    path: "dbQueries/clearToken/catch",
+                    query: query,
+                    queryData: data,
+                    message: err && err.message,
+                    stack: err && err.stack
+                });
+                return reject({
+                    statusCode: 500,
+                    message: "System Error"
+                });
             })
         } catch (err)  {
-            return reject (err)
+            logger.error({
+                path: "dbQueries/authValidate/catch",
+                query: query,
+                queryData: data,
+                message: err && err.message,
+                stack: err && err.stack
+            });
+            return reject({
+                statusCode: 500,
+                message: "System Error"
+            });
         }
     })
 }
@@ -72,29 +95,19 @@ var verifyToken = (arg) => {
                     created_date : result[0].created_date
                 })
             }
-            
-
-
-            // console.log('this is your token := ' + arg.body.auth_token)
-            // query = `SELECT username, created_date FROM auth_token WHERE auth_token = ?`
-
-            // await sql.executeQuery(query, [arg.body.auth_token])
-            //     .then(records => {
-            //         console.log(records)
-            //         if(records ){
-            //             let { username, created_date}  = records[0]
-            //             console.log(records)
-            //             return resolve ({username, created_date})
-            //         }
-
-            //         else return reject({ message: 'Authorization failed'})
-            //     })
-            //     .catch(err => {
-            //         return reject({ message: 'System Error- SQL query' + err.message})
-            //     })
 
         } catch(err) {
-            return reject (err)
+            logger.error({
+                path: "dbQueries/verifyToken/catch",
+                query: query,
+                queryData: data,
+                message: err && err.message,
+                stack: err && err.stack
+            });
+            return reject({
+                statusCode: 500,
+                message: "System Error"
+            });
         }
     })
 }

@@ -1,0 +1,10 @@
+{
+    "AUTH_SERVICE_PORT": 8901,
+    "ACCESS_CONTROL_ALLOW_ORIGIN":["*"],
+    "db" : {
+        "host": "ocalhost",
+        "user": "root",
+        "password": "root",
+        "database": "sit_home"
+    }
+}

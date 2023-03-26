@@ -8,8 +8,6 @@ const courier = new Courier()
 
 const getRatesCtrl = (req) => {
     return new Promise(async  (resolve, reject) => {
-            // console.log('Testing........')
-
             courier.getRates(req)
                 .then(async (res_data) => {
                     return resolve(utils.prepareResponse(200, "success", res_data));

@@ -1,0 +1,124 @@
+---
+openapi: 3.0.0
+info:
+  title: Microservices - Courier API
+  description: Enable front-end to fetch 3rd party courier API from single handledly middleware.
+  contact:
+    email: ""
+  version: 1.0.0
+servers:
+  - url: http://localhost:8900/portal/courier
+    description: localhost
+paths:
+  /get-rates:
+    post:
+      tags:
+        - Courier
+      summary: Get Courier Rates
+      description: Get Courier Rates from Citilink and J&T 
+      requestBody:
+        description: Parcel Shipping Details Request Body Example (with Backend Validation)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/getRates'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getRatesResponse'
+        '403':
+          description: Forbidden
+        '400':
+          description: Authentication failed
+        '401':
+          description: Authorization failed
+        '500':
+          description: System Error
+        '404':
+          description: Not found
+  
+
+components:
+  schemas:
+    getRates:
+      required:
+        - domestic
+        - from_country
+        - from_state
+        - from_postcode
+        - to_country
+        - to_state
+        - to_postcode
+        - length
+        - width
+        - height
+        - type
+        - parcel_weight
+
+      type: object
+      properties:
+        domestic:
+          type: string
+          example: 'Y'
+        from_country:
+          type: string
+          example: 'MY'
+        from_state:
+          type: string
+          example: 'Selangor'
+        from_postcode:
+          type: string
+          example: '42700'
+        to_country:
+          type: string
+          example: 'MY'
+        to_state:
+          type: string
+          example: 'Perak'
+        to_postcode:
+          type: string
+          example: '32610'
+        length:
+          type: string
+          example: '10'
+        width:
+          type: string
+          example: '10'
+        height:
+          type: string
+          example: '10'
+        type:
+          type: string
+          example: '1'
+        parcel_weight:
+          type: string
+          example: '10'
+
+    getRatesResponse:
+      type: object
+      properties:
+        code:
+          type: 'string'
+        text:
+          type: 'string'
+        data:
+          type: object
+          properties:
+            courier:
+              type: string
+            rateInRinggit:
+              type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  
+  

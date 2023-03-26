@@ -1,0 +1,10 @@
+{
+    "COURIER_SERVICE_PORT": 8902,
+    "ACCESS_CONTROL_ALLOW_ORIGIN":["*"],
+    "db" : {
+        "host": "localhost",
+        "user": "root",
+        "password": "root",
+        "database": "sit_home"
+    }
+}

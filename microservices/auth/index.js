@@ -1,17 +1,15 @@
 const logger = require('./components/logger').logger;
-// const config = require("config");
-// logger.info('NODE_ENV: ' + config.util.getEnv('NODE_ENV'));
 const config = require('./config/dev.json')
-const PORT = config.COURIER_SERVICE_PORT
+const PORT = config.AUTH_SERVICE_PORT
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
-const app = require('./router');
+const app = require('./router')
 
 var server;
 
 server = http.createServer(app).listen(PORT, function() {
-logger.info(`Courier Microservices start at port ${PORT}`);
+logger.info(`Auth Microservices start at port ${PORT}`);
 })
 
 
@@ -25,14 +23,14 @@ process.on('unhandledRejection', function (reason, p) {
 });
 
 function crashPeacefullyPlease() {
-  logger.info({info: 'Courier Microservices Closing...'})
+  logger.info({info: 'Auth Microservices Closing...'})
   server.close(() => { 
-    logger.info({ info: 'Courier Microservices Closed !!! '})
+    logger.info({ info: 'Auth Microservices Closed !!! '})
     process.exit();
   })
   // Force close server after 5secs
   setTimeout((e) => {
-    logger.info({info: 'Courier Microservices close !!!',e})
+    logger.info({info: 'Auth Microservices close !!!',e})
     process.exit();
   }, 5000);
 }

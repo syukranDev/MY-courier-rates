@@ -42,7 +42,7 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: authService
-              # changeOrigin: true
+              changeOrigin: true
   courier:
     apiEndpoints:
       - courier

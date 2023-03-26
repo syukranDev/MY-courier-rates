@@ -1,15 +1,20 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
+const config = require('./config/dev.json')
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 const router = express.Router()
 const app = express()
 const controller = require('./model/controller')
 
-const PORT = 3003
+const swaggerDocument = YAML.load('./swagger.yaml')
+app.use('/portal/auth/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
 
 app.use(function (request, response, next) {
-    response.header("Access-Control-Allow-Origin", '*');
+    response.header("Access-Control-Allow-Origin", config.ACCESS_CONTROL_ALLOW_ORIGIN);
     response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
     response.header("Access-Control-Allow-Headers", "Authorization, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
     response.header('Access-Control-Allow-Credentials', true);
@@ -44,10 +49,9 @@ router.route('/logout')
 
 router.route('/test')
     .post(
-          (...args) => controller.authValidator(...args),
+        //   (...args) => controller.authValidator(...args),
           (...args) => controller.test(...args))
 
-app.listen(PORT, () => {
-    console.log(`Connected to PORT ${PORT}!`)
-})
+
+module.exports = app
 

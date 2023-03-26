@@ -3,7 +3,7 @@ var httpRequest = require('request');
 
 module.exports.authValidator = function authValidator(req, res, next) {
     req.auth = {};
-    let VERIFY_AUTHTOKEN_URL = 'http://localhost:3003/portal/auth/verifyToken'
+    let VERIFY_AUTHTOKEN_URL = 'http://localhost:8900/portal/auth/verifyToken'
     var options = {
         "url": VERIFY_AUTHTOKEN_URL,
         "method": "POST",
@@ -19,14 +19,8 @@ module.exports.authValidator = function authValidator(req, res, next) {
             const parsedResponse = JSON.parse(response.body)
             if(response.statusCode == 200){
                 req.auth = Object.assign(req.auth, parsedResponse.data)
-                console.log('00')
                 return next();
             }else{
-                console.log('11')
-                console.log(response.statusCode)
-                // return res.status(response.statusCode)
-                // return res.send(response.body) --working
-                console.log(parsedResponse)
                 return res.status(response.statusCode).send(parsedResponse)
             }
         }

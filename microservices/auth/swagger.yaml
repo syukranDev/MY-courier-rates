@@ -1,0 +1,70 @@
+---
+openapi: 3.0.0
+info:
+  title: Microservices - Auth API
+  description: Get JWT token from in order to be used to access protected route. Without this token, you cannot access other API in other microservices (@protected route)
+  contact:
+    email: ""
+  version: 1.0.0
+servers:
+  - url: http://localhost:8900/portal/auth
+    description: localhost
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Get JWT token from in order to be used to access protected route(i.e /portal/courier/get-rates)
+      description: Get JWT token 
+      requestBody:
+        description: Request Body Example (with Backend Validation)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authLoginResponse'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authLoginResponse'
+        '403':
+          description: Forbidden
+        '400':
+          description: Authentication failed
+        '401':
+          description: Authorization failed
+        '500':
+          description: System Error
+        '404':
+          description: Not found
+  
+
+components:
+  schemas:
+    authLoginResponse:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: 'syukransoleh'
+    getRatesResponse:
+      type: object
+      properties:
+        username:
+          type: 'string'
+        auth_token:
+          type: 'string'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  
+  

@@ -19,9 +19,8 @@ async function clearToken(req) {
 const loginUserCtrl = (req) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // console.log(req.body)
             if(req.body.username) {
-                //we generate token in utils and saved in db
+                //generate token in utils and saved in db
                 var auth_token = await refreshToken(req)
                 return resolve({
                     username: req.body.username,
@@ -44,11 +43,8 @@ const verifyTokenCtrl = (req) => {
             req.body.auth_token = bearerToken;
 
             const validate = utils.verifyJWT(bearerToken)
-             
-            console.log(validate) 
             if(validate.signature) { 
                 auth.verifyToken(req).then((result) => {
-                    console.log('=========verifytoken middleware succses?')
                     return resolve({ message: 'success', data : result || null})
                 }).catch((err) => {
                     return reject(err)
@@ -71,7 +67,6 @@ const verifyTokenCtrl = (req) => {
 
 const logoutUserCtrl = (req) => {
     return new Promise(async  (resolve, reject) => {
-            console.log('2')
            await auth.clearToken(req)
                 .then((data) => {
                     return resolve({sucessMessage: 'User logout success'})
@@ -92,10 +87,7 @@ module.exports.verifyToken = function verifyToken(req, res) {
 			return res.send(results);
 		})
 		.catch(reason => {
-            console.log('test => ' + reason.statusCode)
-            console.log('test2 => ' + reason)
 			return res.status(reason.statusCode).send(reason);
-			//return res.send(reason);
             
 		})
 };
@@ -137,14 +129,8 @@ module.exports.authValidator = function authValidator(req, res, next) {
             const parsedResponse = JSON.parse(response.body)
             if(response.statusCode == 200){
                 req.auth = Object.assign(req.auth, parsedResponse.data)
-                console.log('00')
                 return next();
             }else{
-                console.log('11')
-                console.log(response.statusCode)
-                // return res.status(response.statusCode)
-                // return res.send(response.body) --working
-                console.log(parsedResponse)
                 return res.status(response.statusCode).send(parsedResponse)
             }
         }

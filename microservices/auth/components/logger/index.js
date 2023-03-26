@@ -89,8 +89,7 @@ var logPath = 'logs' /// to change
 if (process.platform === 'win32') {
   logPath = 'logs';
 }
-
-console.log(`Save Logs Path: ./microservices/courier/log`);
+console.log(`Save Logs Path: ./microservices/auth/log`);
 
 module.exports = {
   logger: createLogger('info', `${logPath}`, null, colors),
