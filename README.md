@@ -1,0 +1,108 @@
+# MY-courier-rates
+**Abstract**: <br>
+ >Backend demonstatration on using gateway for multiple microservices in order to insulates the clients from how the application is partitioned into microservices. <br>
+- Meaning to say, let User to connect one port only, gateway will do the port assigning part to user's desired microservices. <br> 
+
+**Aim**: <br>
+- Creating middleware+microservices to get 3rd party courier parcel rates from one API.
+
+**Security/ Feature Implemented**:
+- Middleware 1: Request body validaton (using Joi modules) 
+- Middleware 2: Protected route (usage of JWT token) 
+- Logger saved seperately in microservices/..servicename../logs
+
+**Tech stacks used**<br>
+- NodeJS, ExpressJS, ES6 Javascript, MySQL, numbers of npm modules (see package.json)
+
+
+[![ss](https://gcdnb.pbrd.co/images/jKqd8sA8V6VJ.jpg?o=1)](null)
+## Pre-requisite
+```
+- npm 
+- nodejs
+- pm2 (same as docker but faster?)
+- local mysql database
+```
+
+## One-Time Setup (NodeJS)
+```
+1. run: git clone <this-repo-url>
+2. run: npm i 
+3. For Gateway, Head to main directory and run pm2 ecosystem.config.js
+2. For Microservices, Head to every /microservices/<services name>/ and run pm2 ecosystem.config.js (in this case microservices/auth and microservices/courier)
+
+3 services need to up using pm2:
+1. Gateway (ecosystem.config.js)
+2. Auth Microservices (./microservices/auth/ecosystem.config.js)
+3. Courier Microservices (./microservices/courier/ecosystem.config.js)
+
+```
+
+## One-Time Setup (MySQL Database)
+1. Add followings table
+```
+'CREATE TABLE `auth_token` (
+  `username` varchar(255) DEFAULT NULL,
+  `auth_token` varchar(255) DEFAULT NULL,
+  `created_date` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
+
+
+'CREATE TABLE `getrates` (
+  `domestic` varchar(2) DEFAULT NULL,
+  `from_country` varchar(50) DEFAULT NULL,
+  `from_state` varchar(50) DEFAULT NULL,
+  `from_postcode` varchar(50) DEFAULT NULL,
+  `to_country` varchar(50) DEFAULT NULL,
+  `to_state` varchar(50) DEFAULT NULL,
+  `to_postcode` varchar(50) DEFAULT NULL,
+  `length` varchar(50) DEFAULT NULL,
+  `width` varchar(50) DEFAULT NULL,
+  `height` varchar(50) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `parcel_weight` varchar(50) DEFAULT NULL,
+  `doc_weight` varchar(50) DEFAULT NULL,
+  `rates` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
+
+```
+## SwaggerUI for your testing (or u may use curl/postman)
+```
+1. http://localhost:8900/portal/auth/api-docs/
+2. http://localhost:8900/portal/courier/api-docs/
+```
+
+## How this works?
+
+***Port assigning*** <br>
+User will connect to gateay port only: <br>
+Gateway using port 8900<br>
+Auth Microservices using port 8901<br>
+Courier Microservices using port 8902 <br>
+
+***How to get into protected route*** <br>
+1. Get token from /portal/auth/login <br>
+you can put any username as you want, if the username is name as what presenteed in db, then the token will be updated. (or inserted if no match record founds.)<br>
+If you dont put token or expired token, unathorized message will be return. Kindly note token generated will expired in 30mins
+2. Put token into Bearer Token header inside /portal/courier/get-rates <br>
+
+***Security Implemented*** <br>
+1. Request body validation using Joi <br>
+Any unwanted field in request payload or wrong datatype, will return error response on what field is missing/wrong <br>
+
+2. Usage of protected route<br>
+Token inserted in protected route will be verified via portal/auth/verifyToken, else will return unathorized message
+
+
+## Future Plans <br>
+Will update accordingly.
+
+
+
+
+
+
+
+
+
+
