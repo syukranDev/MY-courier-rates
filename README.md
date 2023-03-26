@@ -14,8 +14,11 @@
 **Tech stacks used**<br>
 - NodeJS, ExpressJS, ES6 Javascript, MySQL, numbers of npm modules (see package.json)
 
+<p align="center">
+<img src="https://gcdnb.pbrd.co/images/jKqd8sA8V6VJ.jpg?o=1" width="75%">
+</p> </br>                                                                       
+                                                                        
 
-[![ss](https://gcdnb.pbrd.co/images/jKqd8sA8V6VJ.jpg?o=1)](null)
 ## Pre-requisite
 ```
 - npm 
@@ -95,10 +98,15 @@ If you dont put token or expired token, unathorized message will be return. Kind
 ***Security Implemented*** <br>
 1. Request body validation using Joi <br>
 Any unwanted field in request payload or wrong datatype, will return error response on what field is missing/wrong <br>
+<p align="center">
+<img src="[https://gcdnb.pbrd.co/images/qWUx2QVRAo0m.png?o=1](https://gcdnb.pbrd.co/images/wKV8dRCxaTxW.png?o=1)" width="75%">
+<p/><br>
 
 2. Usage of protected route<br>
-Token inserted in protected route will be verified via portal/auth/verifyToken, else will return unathorized message
-
+Token inserted in protected route will be verified via portal/auth/verifyToken, else will return unathorized message <br>
+<p align="center">
+<img src="https://gcdnb.pbrd.co/images/qWUx2QVRAo0m.png?o=1" width="75%">
+<p/><br>
 
 ## Future Plans <br>
 Will update accordingly when free.
