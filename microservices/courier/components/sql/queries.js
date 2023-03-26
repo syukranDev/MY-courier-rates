@@ -1,7 +1,11 @@
 const sql = require('./index')
 const utils = require('../../components/utils')
 const { query } = require('express')
-const axios = require('axios')
+
+const axios = require('axios');
+const qs = require('querystring');
+const { JSDOM } = require('jsdom');
+const { result } = require('lodash');
 
 
 // var refreshToken = (arg) => {
@@ -45,8 +49,7 @@ const axios = require('axios')
 var getRates = arg => {
     return new Promise(async (resolve, reject) => {
         try {
-            let records = []
-            let data = {
+            let dataPromise1 = {
                 "origin_country": arg.body.from_country, 
                 "origin_state": arg.body.from_state,
                 "origin_postcode": arg.body.from_postcode,
@@ -59,122 +62,83 @@ var getRates = arg => {
                 "width": arg.body.width ,
                 "height": arg.body.height ,
                 "selected_type": arg.body.type,
-                "parcel_weight": arg.body.weight,
-                "document_weight": arg.body.jnt || '0'
+                "parcel_weight": arg.body.parcel_weight,
+                "document_weight": arg.body.doc_weight || '0'
             }
 
-            await axios.post('https://www.citylinkexpress.com/wp-json/wp/v2/getShippingRate', data)
-                .then(responses => {
-                    records.push({ 
-                        courier: 'Citilink',
-                        rateInRinggit: responses.data.req.data.rate
-                    })
+            const dataPromise2 = qs.stringify({
+                '_token': 'EHZrSmZMLRWrowhv3hXcK8hyk3hXAY31G3NLfU6U',
+                'shipping_rates_type': arg.body.domestic == 'Y' ? 'domestic' : 'international',
+                'sender_postcode': arg.body.from_postcode,
+                'receiver_postcode': arg.body.to_postcode,
+                'destination_country': arg.body.domestic == 'Y' ? 'BWN' : 'BWN', //unknown international codes
+                'shipping_type': 'EZ', //fixed regular
+                'weight': arg.body.parcel_weight,
+                'length': arg.body.length,
+                'width': arg.body.width,
+                'height': arg.body.height,
+                'item_value': '' //fixed value null @ no insurance
+                });
 
-                    return records
-                }).then(async records => {
-                    // Fetch from Courier 1
-                        const axios = require('axios');
-                        const qs = require('querystring');
-                        const { JSDOM } = require('jsdom')
+                console.log('=======================================================')
+                console.log('=======================================================')
+                console.log('=======================================================')
+                console.log(dataPromise2)
 
-                        const data = qs.stringify({
-                        '_token': 'ZUYcDLMuFs8cTaLkUjWZgOkRv94HKuAsSonReRXj',
-                        'shipping_rates_type': arg.body.domestic == 'Y' ? 'domestic' : 'international',
-                        'sender_postcode': arg.body.from_postcode,
-                        'receiver_postcode': arg.body.to_postcode,
-                        'destination_country': arg.body.domestic == 'Y' ? 'BWN' : 'BWN', //unknown international codes
-                        'shipping_type': 'EZ', //fixed regular
-                        'weight': arg.body.weight,
-                        'length': arg.body.length,
-                        'width': arg.body.width,
-                        'height': arg.body.height,
-                        'item_value': '' //fixed value null @ no insurance
-                        });
+            const citylinkPromise = await axios.post('https://www.citylinkexpress.com/wp-json/wp/v2/getShippingRate', dataPromise1)
+                                    .then(responses => {
+                                        // console.log(1)
+                                        return ({ 
+                                            courier: 'Citilink',
+                                            rateInRinggit: responses.data.req.data.rate
+                                        })
+                                    })
 
+            const jntPromise = axios(
+                                {
+                                    method: 'post',
+                                    url: 'https://www.jtexpress.my/shipping-rates',
+                                    headers: { 
+                                        'accept': '*/*', 
+                                        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 
+                                        'x-requested-with': 'XMLHttpRequest', 
+                                        'Cookie': '_ga=GA1.2.1799226497.1678279692; _gid=GA1.2.277345308.1679729433; XSRF-TOKEN=eyJpdiI6IkVUaDlRdWlNMFVZc2U4bStSaTlzd3c9PSIsInZhbHVlIjoiSm1LREtpWk5aSldOSm16U01TNTdzYlNLei9wUFNpTUdva2gxS1NlT2grYndydC9EQVFmR2Y5K1pVK0dsYVM1YVVQN2lEWTdPemNVT2xPc0E2UFlJNnE3UC9kNzJ6a29weElYbTA3VDRka2tqdEFtKzVVUDRXNy91M2h0YnhGR0QiLCJtYWMiOiJiMzFiYzhiOWNlYjkxMTE1YjM5OTA5ZTQ3OTk3OTMyNmUzODI3MzM1YTQ2ZWNjYjYyMDc5YWVkNWY1MGI5N2RmIn0%3D; jt_express_malaysia_session=eyJpdiI6Im9KV2xQMWp6Y3hmWXhNalk4TjZvb1E9PSIsInZhbHVlIjoidUZRVUFwSTE5ZHhFbXZDb3NZMlpDdk83dEZuMjZQODYrdnBuQ284YWJkb1VOUnF1YmUvVFlqTkZPazl5SEZQMHdLcGJPblNValdPdG9FTmdmODhYZHlmUlN2d1RGYUZZSlh0WXYyNUVNVHhsa2FUTU1RYitjNmMrMkZUNi9wL0wiLCJtYWMiOiJkMzI3Y2Y2NzA5N2YxYmIzZGYxMWVjNzMxNWY2ODQyNGYzNWQyOWVhNDZiNzgwMGY4N2M2NWU5OTA1ODE1MTc3In0%3D; _gat_gtag_UA_127851323_1=1', 
+                                    },
+                                    data : dataPromise2
+                                })
+                                .then(function (response) {
+                                    function extractValueFromHTML(html) {
+                                        const dom = new JSDOM(html);
+                                        const targetElement = dom.window.document.querySelector("tr:last-child");
+                                        return targetElement.textContent.trim();
+                                    }
+                                    
+                                    const htmlString = JSON.stringify(response.data) 
+                                    const string = extractValueFromHTML(htmlString);
 
-                        const config = {
-                        method: 'post',
-                        url: 'https://www.jtexpress.my/shipping-rates',
-                        headers: { 
-                            'accept': '*/*', 
-                            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 
-                            'x-requested-with': 'XMLHttpRequest', 
-                            'Cookie': 'XSRF-TOKEN=eyJpdiI6IjZwd0pqbkZrM3R0cHIwSlc3TEI1R3c9PSIsInZhbHVlIjoiTEsyb05SeE93RXpvajhzUG1KUjZUcWpNUFp2UmJrK1MzQ1JoUGhKUUVCc2NDTW5OWVF1S0NDZjhmOXczQlF4VnllRXJMZ1U2TlZEeGdla1lXN25rVkJYd3NNSktaRHJTcklvRVFvdFovVTRxQlpHWC90S1I5eENaZDFpa0ZCbXciLCJtYWMiOiJlY2MwNmM3NDVmNTU2ZGI2NWE4NGJjYTY1ZTFkNWJhZWQ1OGRhNTNhN2EyMDI0NDQ2Yjk1NmUwNzNlYjIzOTEzIn0%3D; jt_express_malaysia_session=eyJpdiI6IjNiWCs4aGs2cXlHQnlqQllRN0hoTXc9PSIsInZhbHVlIjoicjRiZ25xdnVvc1YybnZScTFRcUx1aXdvcHhid1JVNGwwUU5SUGZaQ0laRlpIL3orQkxoMjlQSGtYdmZLeHAvWFgyaFdqUEhJd2NCeisxeFdJQlREQ0JZR3BVT2ZLdjI0R2lkWTFvcVo3Z1d0a0NReEx5UXFSZ3Q4aVUwaUhGbDYiLCJtYWMiOiJiODkyMzg0ZDM2Y2JhZTViMjZkMjE0NjFjZGY0NWIwMTY2MjVjZjAxYzhhZDczNWM0OWU1MTQzZDI4MDYwNjA1In0%3D', 
-                        },
-                        data : data
-                        };
+                                    const numberRegex = /\d+(\.\d+)?/;
+                                    const matches = string.match(numberRegex);
+                                    const value = matches ? matches[0] : null;
 
-                        await axios(config)
-                        .then(function (response) {
-                            function extractValueFromHTML(html) {
-                                const dom = new JSDOM(html);
-                                const targetElement = dom.window.document.querySelector("tr:last-child");
-                                return targetElement.textContent.trim();
-                            }
-                            
-                            const htmlString = JSON.stringify(response.data) // the HTML string provided in the question
-                            const string = extractValueFromHTML(htmlString);
+                                    return ({
+                                        courier: 'J&T',
+                                        rateInRiggit: parseFloat(value) 
+                                    })
+                                })
 
-                            const numberRegex = /\d+(\.\d+)?/;
-                            const matches = string.match(numberRegex);
-                            const value = matches ? matches[0] : null;
+            Promise.all([citylinkPromise, jntPromise]).then(result => {
+                const [data1, data2] = result
+                const combinedData = [{...data1},{...data2}]
+                console.log(combinedData)
+                return resolve(combinedData)
+            })
 
-                            records.push({
-                                courier: 'J&T',
-                                rateInRiggit: parseFloat(value)
-                            })
-
-                            return resolve(records)
-                    })
-                }).catch(err => {
-                    return reject(err.message)
-                })
 
         } catch (err)  {
-            return reject (err)
+            return reject (err.response && err.message)
         }
     })
 }
-
-// var verifyToken = (arg) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const getUsernameCreatedDate = await sql.executeQuery(`
-//                 SELECT username, created_date FROM auth_token WHERE ?
-//             `, { auth_token : arg.body.auth_token})
-//             if (getUsernameCreatedDate) {
-//                 const result = JSON.parse(JSON.stringify(getUsernameCreatedDate))
-//                 return resolve({
-//                     username: result[0].username,
-//                     created_date : result[0].created_date
-//                 })
-//             }
-            
-
-
-//             // console.log('this is your token := ' + arg.body.auth_token)
-//             // query = `SELECT username, created_date FROM auth_token WHERE auth_token = ?`
-
-//             // await sql.executeQuery(query, [arg.body.auth_token])
-//             //     .then(records => {
-//             //         console.log(records)
-//             //         if(records ){
-//             //             let { username, created_date}  = records[0]
-//             //             console.log(records)
-//             //             return resolve ({username, created_date})
-//             //         }
-
-//             //         else return reject({ message: 'Authorization failed'})
-//             //     })
-//             //     .catch(err => {
-//             //         return reject({ message: 'System Error- SQL query' + err.message})
-//             //     })
-
-//         } catch(err) {
-//             return reject (err)
-//         }
-//     })
-// }
 
 module.exports = {
     getRates :  getRates

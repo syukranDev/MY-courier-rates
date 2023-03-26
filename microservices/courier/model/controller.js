@@ -35,7 +35,7 @@ module.exports.getRates = function getRates(req, res) {
             return res.send(results)
         })
         .catch(err => {
-            printEndLogs(start_benchmark, 'getRatesCtrl', results, 'END - getRatesCtrl with success');
+            printEndLogs(start_benchmark, 'getRatesCtrl', err, 'END - getRatesCtrl with success');
             res.status(err.statusCode).send(err)
         })
         

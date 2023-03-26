@@ -157,3 +157,14 @@
 {"level":"info","message":{"message":{"info":"START - getRatesCtrl","payload":{"domestic":"Y","from_country":"MY","from_postcode":"42700","from_state":"Kuala Lumpur","height":"10","length":"10","to_country":"MY","to_postcode":"32610","to_state":"Perak","type":"1","weight":"10","width":"10"},"route":"getRatesCtrl"},"pid":2596,"time":"25, Mar 2023, 23:46:21 5600"}}
 {"level":"info","message":{"message":{"benchmark":1285.6418,"info":"END - getRatesCtrl with success","results":{"code":200,"data":[{"courier":"Citilink","rateInRinggit":24},{"courier":"J&T","rateInRiggit":31.8}],"text":"success"},"route":"getRatesCtrl"},"pid":2596,"time":"25, Mar 2023, 23:46:22 8460"}}
 {"level":"info","message":{"message":{"info":"Courier Microservices Closing..."},"pid":2596,"time":"25, Mar 2023, 23:46:34 5590"}}
+{"level":"info","message":{"message":"Courier Microservices start at port 8902","pid":21964,"time":"25, Mar 2023, 23:51:07 0800"}}
+{"level":"info","message":{"message":{"info":"START - getRatesCtrl","payload":{"domestic":"Y","from_country":"MY","from_postcode":"42700","from_state":"Kuala Lumpur","height":"10","length":"10","to_country":"MY","to_postcode":"32610","to_state":"Perak","type":"1","weight":"10","width":"10"},"route":"getRatesCtrl"},"pid":21964,"time":"25, Mar 2023, 23:51:21 4290"}}
+{"level":"info","message":{"message":{"benchmark":1493.5626,"info":"END - getRatesCtrl with success","results":{"code":200,"data":[{"courier":"Citilink","rateInRinggit":24},{"courier":"J&T","rateInRiggit":31.8}],"text":"success"},"route":"getRatesCtrl"},"pid":21964,"time":"25, Mar 2023, 23:51:22 9230"}}
+{"level":"info","message":{"message":{"info":"Courier Microservices Closing..."},"pid":21964,"time":"25, Mar 2023, 23:51:49 7680"}}
+{"level":"info","message":{"message":"Courier Microservices start at port 8902","pid":13604,"time":"25, Mar 2023, 23:51:50 4320"}}
+{"level":"info","message":{"message":{"info":"Courier Microservices Closing..."},"pid":13604,"time":"25, Mar 2023, 23:55:18 3120"}}
+{"level":"info","message":{"message":"Courier Microservices start at port 8902","pid":7372,"time":"25, Mar 2023, 23:55:19 0740"}}
+{"level":"info","message":{"message":{"info":"Courier Microservices Closing..."},"pid":7372,"time":"25, Mar 2023, 23:59:34 8560"}}
+{"level":"info","message":{"message":"Courier Microservices start at port 8902","pid":12040,"time":"25, Mar 2023, 23:59:35 5920"}}
+{"level":"info","message":{"message":{"info":"Courier Microservices Closing..."},"pid":12040,"time":"25, Mar 2023, 23:59:54 6630"}}
+{"level":"info","message":{"message":"Courier Microservices start at port 8902","pid":12320,"time":"25, Mar 2023, 23:59:55 4040"}}
