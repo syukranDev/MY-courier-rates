@@ -91,7 +91,7 @@ Courier Microservices using port 8902 <br>
 
 ***How to get into protected route*** <br>
 1. Get token from /portal/auth/login <br>
-you can put any username as you want, if the username is name as what presenteed in db, then the token will be updated. (or inserted if no match record founds.)<br>
+you can put any username as you want, if the username is same as what presenteed in db, then the token will be updated. (or inserted if no match record founds.)<br>
 If you dont put token or expired token, unathorized message will be return. Kindly note token generated will expired in 30mins
 2. Put token into Bearer Token header inside /portal/courier/get-rates <br>
 
