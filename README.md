@@ -127,7 +127,7 @@ Token inserted in protected route will be verified via portal/auth/verifyToken, 
 
 ## Known Bugs 
 1. J&T rates API is using Cookies XSRF Token in its header request as part of their request validation. I am not sure how long the token will be lasts in my API. If my api is failing due to this, you can just manually get the XSRF token from their website and replace it in my codes. No permanent fix this since its being setup from their client side.
-2. Not all external 3rd party courier api will use the request body sent by UI, since all 3rd party APIs doesnt have the same request body field. You may use what stated in the swagger example only. I am not sure what are the alias use for country for both 3rd party courier API etc etc. You may only change state and postcode and parcel dimensions + weight only.
+2. Not all external 3rd party courier api will use the request body sent by UI, since all 3rd party APIs doesnt have the same request body field. For example, I am not sure what are the alias use for country etc used in all 3rd party courier API used. You may use what stated in the swagger example and change state and postcode and parcel dimensions + weight only for your testing, else might produce error.
 
 ## Future Plans <br>
 1. TDD unit test
