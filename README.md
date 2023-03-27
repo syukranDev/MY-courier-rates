@@ -9,9 +9,9 @@
 **Security/ Feature Implemented**:
 - Middleware 1: Request body validaton (using Joi modules) 
 - Middleware 2: Protected route (usage of JWT token) 
-- Caching to MySQL db for same request body.
+- Caching response to MySQL db if same request body.
 - Logger via winston
-- Microservices Management PM2 - auto restart, logging viewing etc
+- Microservices Management PM2 - load balancer, auto restart, logging viewing etc
 
 
 **Tech stacks used**<br>
@@ -154,7 +154,7 @@ curl 'https://www.jtexpress.my/shipping-rates' \
   --data-raw '_token=tWhIqUXDwNfACqgzJwBdAVUmqIThHOw4myNYjKNU&shipping_rates_type=domestic&sender_postcode=42700&receiver_postcode=42700&destination_country=BWN&shipping_type=EZ&weight=10&length=10&width=10&height=10&item_value=' \
   --compressed
 ```
-2. Not all external 3rd party courier api will use the request body sent by UI, since all 3rd party APIs doesnt have the same request body field. For example, I am not sure what are the alias use for country etc used in all 3rd party courier API used. You may use what stated in the swagger example and change state and postcode and parcel dimensions + weight only for your testing, else might produce error.
+2. Not all external 3rd party courier API will use all the request body sent by UI, since all 3rd party APIs doesn't have the same request body field. For example, I am not sure what are the other alias use for country in Citilink API whilst J&T API doesn't use Country. You may use what stated in the Swagger example and change state and postcode and parcel dimensions + weight only for your testing, changing other field else might produce error.
 
 ## Future Plans <br>
 1. TDD unit test
