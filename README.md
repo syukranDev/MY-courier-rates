@@ -11,6 +11,8 @@
 - Middleware 2: Protected route (usage of JWT token) 
 - Caching to MySQL db for same request body.
 - Logger via winston
+- Microservices Management PM2 - auto restart, logging viewing etc
+
 
 **Tech stacks used**<br>
 - NodeJS, ExpressJS, ES6 Javascript, MySQL, SwaggerUI & numbers of npm modules (see package.json)
