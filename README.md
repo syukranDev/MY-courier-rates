@@ -54,7 +54,7 @@ How to see logs via files?
 
 
 ## One-Time Setup (MySQL Database)
-1. Edit your database credentials in microservices/..services../components/sql/index.js (create one with the exact credentials)
+1. Edit your database credentials in microservices/..services../components/sql/index.js (OR create one with the exact credentials)
 2. Add followings 2 tables
 ```
 'CREATE TABLE `auth_token` (
