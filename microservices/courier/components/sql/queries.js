@@ -58,7 +58,7 @@ var getRates = arg => {
                 }
     
                 const dataPromise2 = qs.stringify({
-                    '_token': 'EHZrSmZMLRWrowhv3hXcK8hyk3hXAY31G3NLfU6U',
+                    '_token': 'tWhIqUXDwNfACqgzJwBdAVUmqIThHOw4myNYjKNU',
                     'shipping_rates_type': arg.body.domestic == 'Y' ? 'domestic' : 'international',
                     'sender_postcode': arg.body.from_postcode,
                     'receiver_postcode': arg.body.to_postcode,
@@ -70,6 +70,13 @@ var getRates = arg => {
                     'height': arg.body.height,
                     'item_value': '' //fixed value null @ no insurance
                     });
+
+                const dataPromise3 = qs.stringify({
+                    'domestic[type]': '',
+                    'domestic[weight]': arg.body.parcel_weight,
+                    'domestic[domestic_statefrom]': arg.body.from_postcode,
+                    'domestic[domestic_stateto]': arg.body.to_postcode,
+                })
     
                 const citylinkPromise = await axios.post('https://www.citylinkexpress.com/wp-json/wp/v2/getShippingRate', dataPromise1)
                                         .then(responses => {
@@ -79,7 +86,7 @@ var getRates = arg => {
                                             })
                                         })
     
-                const jntPromise = axios(
+                const jntPromise = await axios(
                                     {
                                         method: 'post',
                                         url: 'https://www.jtexpress.my/shipping-rates',
@@ -87,7 +94,7 @@ var getRates = arg => {
                                             'accept': '*/*', 
                                             'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 
                                             'x-requested-with': 'XMLHttpRequest', 
-                                            'Cookie': '_ga=GA1.2.1799226497.1678279692; _gid=GA1.2.277345308.1679729433; XSRF-TOKEN=eyJpdiI6IkVUaDlRdWlNMFVZc2U4bStSaTlzd3c9PSIsInZhbHVlIjoiSm1LREtpWk5aSldOSm16U01TNTdzYlNLei9wUFNpTUdva2gxS1NlT2grYndydC9EQVFmR2Y5K1pVK0dsYVM1YVVQN2lEWTdPemNVT2xPc0E2UFlJNnE3UC9kNzJ6a29weElYbTA3VDRka2tqdEFtKzVVUDRXNy91M2h0YnhGR0QiLCJtYWMiOiJiMzFiYzhiOWNlYjkxMTE1YjM5OTA5ZTQ3OTk3OTMyNmUzODI3MzM1YTQ2ZWNjYjYyMDc5YWVkNWY1MGI5N2RmIn0%3D; jt_express_malaysia_session=eyJpdiI6Im9KV2xQMWp6Y3hmWXhNalk4TjZvb1E9PSIsInZhbHVlIjoidUZRVUFwSTE5ZHhFbXZDb3NZMlpDdk83dEZuMjZQODYrdnBuQ284YWJkb1VOUnF1YmUvVFlqTkZPazl5SEZQMHdLcGJPblNValdPdG9FTmdmODhYZHlmUlN2d1RGYUZZSlh0WXYyNUVNVHhsa2FUTU1RYitjNmMrMkZUNi9wL0wiLCJtYWMiOiJkMzI3Y2Y2NzA5N2YxYmIzZGYxMWVjNzMxNWY2ODQyNGYzNWQyOWVhNDZiNzgwMGY4N2M2NWU5OTA1ODE1MTc3In0%3D; _gat_gtag_UA_127851323_1=1', 
+                                            'Cookie': '_ga=GA1.2.1799226497.1678279692; _gid=GA1.2.277345308.1679729433; XSRF-TOKEN=eyJpdiI6IjEyTmszR1htVkU3OUJXOHpiOU1Tdnc9PSIsInZhbHVlIjoiQTBMeVdCMnZIcEdHL0lBcGZqcktLTkQ0QTNCWVJpMVBOOFhmVy81US9yWG5BS2ZsU0xNUDJNUy82UmYwUEMzeVNqdTVrSVQxamdHWStMaGkxOEs5aXM0Slgra1pTY1NlZlJxdFhmMTBGclhveHhBajJ3c0JseGJETWxGOG1XMFMiLCJtYWMiOiIwNjQxMGQwMzJkOTM3MDI2NTFhZjIzNmVkYzIzMDg2NmNhZmIwMWY3OTljN2UzMTZiODk5MzYxZTllOTA3YTQwIn0%3D; jt_express_malaysia_session=eyJpdiI6IkI0dHJmZnl3VkhMczlXQ1dHYU91bFE9PSIsInZhbHVlIjoiK3ZUK1A0akZ0bGd0Q1g5S0E5ZEhDU1lhV0M3S093T2tqUDlhV2VYaE1pY2s0cjZ6VVBVOXVxdG5IK2U2K29uc3h3SWVXOHhDYWI3dU0wNDNaUEZ6bmR1eDB0MXgrWjFwOWZaL1oreWlaVUlodkhFenVmTUNNTG5vRExDbTZPVVIiLCJtYWMiOiI0ZTQ1ODBiMzMzMDRmNzc3NDg0ODY3ODcxZjg2YTM1YWRjOGNmYmI0NGY2ZTA0NDM2MWRiOGRmZDc5YTRjYjFmIn0%3D; _gat_gtag_UA_127851323_1=1', 
                                         },
                                         data : dataPromise2
                                     })
@@ -110,10 +117,37 @@ var getRates = arg => {
                                             rateInRiggit: parseFloat(value) 
                                         })
                                     })
+
+                const poslajuPromise = await axios(
+                                        {
+                                            method: 'post',
+                                            url: 'https://www.pos.com.my/postagecalculator/ajax/domestic',
+                                            headers: { 
+                                                'accept': 'application/json, text/javascript, */*; q=0.01',
+                                                'accept-language': 'en-US,en;q=0.9' ,
+                                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 
+                                                'x-requested-with': 'XMLHttpRequest', 
+                                            },
+                                            data : dataPromise3
+                                        })
+                                        .then(function (response) {
+                                            const HTMLstring = JSON.stringify(response.data)
+                            
+                                            const regex = /RM\s*\d+(\.\d+)?/g;
+                                            const match = HTMLstring.match(regex);
+                                            
+                                            if (match && match.length > 0) {
+                                                const finalRate = match[0].match(/\d+\.\d+/)[0]
+                                                return ({
+                                                    courier: 'Poslaju',
+                                                    rateInRiggit: parseFloat(finalRate)
+                                                })
+                                            }
+                                        })
     
-                Promise.all([citylinkPromise, jntPromise]).then(result => {
-                    const [data1, data2] = result
-                    const combinedData = [{...data1},{...data2}]
+                Promise.all([citylinkPromise, jntPromise, poslajuPromise]).then(result => {
+                    const [data1, data2, data3] = result
+                    const combinedData = [{...data1},{...data2},{...data3}]
                     return combinedData
 
                 }).then(async result => {

@@ -71,3 +71,30 @@ curl --location --request POST 'https://www.jtexpress.my/shipping-rates' \
 --header 'x-requested-with: XMLHttpRequest' \
 --header 'Cookie: XSRF-TOKEN=eyJpdiI6IlNoYkFjNDhodFN0U0NiSzdvdjhuMmc9PSIsInZhbHVlIjoiUzJxaVRWb05SQzJPWTJVazBuNWJYcG9GdFVFK2Zsc290elEvSXZKdXZVWGV1empVdkh4ZnFxYkpIOWZseEdjU2ZkbHhIM3NsM3ZoMEh3MlF4TFNNT29ET3pTQWFyeElUSEFydDBReWo4dUpld1dwaURzYmdUUWFQbWZIeFZOcEoiLCJtYWMiOiI2ZGRkNTc4MjkyOTUwYThiNGRhMmMzYzk3NzllNjA0YWM5NzJmMThkNjE4MTU4NzE2MmYxMDQ2MWM2ZTQyZThhIn0%3D; jt_express_malaysia_session=eyJpdiI6IkFtbFZaMzV0eWJzc3FVS2hnYjZnK3c9PSIsInZhbHVlIjoieGs2ZHJUcUd4bWNGV3NkeTdmR0VMTUxlaVV3OGovTEdhZGFhaGc2c3haY3FrS1BFbzVVZWs3Qlg2NnFDSzA2T3FqZUZSMzk1eU80TlBPLy9ENXBGbTdzYVhyNkFOdlloUHVpMlRaZVFCR3pZSXNCcWFkZC8zTG1pcldGc2hBMU4iLCJtYWMiOiIzZTFmZmM3ZjE3NjUyM2Y1NWU2YzhmYmI1MzQyMDJkMDkyYzU0NjM3ODgzYjNmZmRiODc4YjIxMGJhYjM3Njc3In0%3D' \
 --data-raw '_token=A6UNLNxCC0nlCQkrnKS254VBvBy0xCF3yXbqp6UD&shipping_rates_type=domestic&sender_postcode=42700&receiver_postcode=32610&destination_country=BWN&shipping_type=EZ&weight=10&length=1&width=1&height=1&item_value='
+
+
+
+//==================================================================
+Poslaju api
+
+
+curl 'https://www.pos.com.my/postagecalculator/ajax/domestic' \
+  -H 'authority: www.pos.com.my' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'accept-language: en-US,en;q=0.9' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'origin: https://www.pos.com.my' \
+  -H 'pragma: no-cache' \
+  -H 'referer: https://www.pos.com.my/send/ratecalculator.html' \
+  -H 'sec-ch-ua: "Google Chrome";v="111", "Not(A:Brand";v="8", "Chromium";v="111"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36' \
+  -H 'x-newrelic-id: VgEHWFVQDRAFUFBbDgUOVFc=' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw 'domestic%5Btype%5D=&domestic%5Bweight%5D=20&domestic%5Bdomestic_statefrom%5D=42700&domestic%5Bdomestic_stateto%5D=42700' \
+  --compressed
