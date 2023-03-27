@@ -80,6 +80,8 @@ How to see logs via files?
   `rates` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
 
+Edit your database credentials in microservices/..services../components/sql/index.js
+
 ```
 ## SwaggerUI for your testing (or u may use curl/postman)
 ```
