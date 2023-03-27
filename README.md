@@ -9,6 +9,7 @@
 **Security/ Feature Implemented**:
 - Middleware 1: Request body validaton (using Joi modules) 
 - Middleware 2: Protected route (usage of JWT token) 
+- Caching to MySQL db for same request body.
 - Logger via winston
 
 **Tech stacks used**<br>
