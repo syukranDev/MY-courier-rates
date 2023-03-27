@@ -128,7 +128,7 @@ Token inserted in protected route will be verified via portal/auth/verifyToken, 
 ## Known Bugs 
 1. J&T rates API is using Cookies XSRF Token in its header request as part of their request validation. I am not sure how long the token will be lasts in my API. If my api is failing due to this, you can just manually get the XSRF token from their website and replace it in my codes. No permanent fix this since its being setup from their client side.
 ```
-Copy below cookie and token values in request body below, then replace in 'dataPromise2' and 'jntPromise' microservices/courier/components/sql/queries.js
+Copy below cookie and token values in sample cURL below, then replace in 'dataPromise2' and 'jntPromise' microservices/courier/components/sql/queries.js
 
 curl 'https://www.jtexpress.my/shipping-rates' \
   -H 'authority: www.jtexpress.my' \
