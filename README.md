@@ -127,6 +127,30 @@ Token inserted in protected route will be verified via portal/auth/verifyToken, 
 
 ## Known Bugs 
 1. J&T rates API is using Cookies XSRF Token in its header request as part of their request validation. I am not sure how long the token will be lasts in my API. If my api is failing due to this, you can just manually get the XSRF token from their website and replace it in my codes. No permanent fix this since its being setup from their client side.
+```
+Copy below cookie and token values in request body below, then replace in 'dataPromise2' and 'jntPromise' microservices/courier/components/sql/queries.js
+
+curl 'https://www.jtexpress.my/shipping-rates' \
+  -H 'authority: www.jtexpress.my' \
+  -H 'accept: */*' \
+  -H 'accept-language: en-US,en;q=0.9' \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'cookie: _ga=GA1.2.1799226497.1678279692; _gid=GA1.2.277345308.1679729433; XSRF-TOKEN=eyJpdiI6IjEyTmszR1htVkU3OUJXOHpiOU1Tdnc9PSIsInZhbHVlIjoiQTBMeVdCMnZIcEdHL0lBcGZqcktLTkQ0QTNCWVJpMVBOOFhmVy81US9yWG5BS2ZsU0xNUDJNUy82UmYwUEMzeVNqdTVrSVQxamdHWStMaGkxOEs5aXM0Slgra1pTY1NlZlJxdFhmMTBGclhveHhBajJ3c0JseGJETWxGOG1XMFMiLCJtYWMiOiIwNjQxMGQwMzJkOTM3MDI2NTFhZjIzNmVkYzIzMDg2NmNhZmIwMWY3OTljN2UzMTZiODk5MzYxZTllOTA3YTQwIn0%3D; jt_express_malaysia_session=eyJpdiI6IkI0dHJmZnl3VkhMczlXQ1dHYU91bFE9PSIsInZhbHVlIjoiK3ZUK1A0akZ0bGd0Q1g5S0E5ZEhDU1lhV0M3S093T2tqUDlhV2VYaE1pY2s0cjZ6VVBVOXVxdG5IK2U2K29uc3h3SWVXOHhDYWI3dU0wNDNaUEZ6bmR1eDB0MXgrWjFwOWZaL1oreWlaVUlodkhFenVmTUNNTG5vRExDbTZPVVIiLCJtYWMiOiI0ZTQ1ODBiMzMzMDRmNzc3NDg0ODY3ODcxZjg2YTM1YWRjOGNmYmI0NGY2ZTA0NDM2MWRiOGRmZDc5YTRjYjFmIn0%3D; _gat_gtag_UA_127851323_1=1' \
+  -H 'origin: https://www.jtexpress.my' \
+  -H 'pragma: no-cache' \
+  -H 'referer: https://www.jtexpress.my/shipping-rates' \
+  -H 'sec-ch-ua: "Google Chrome";v="111", "Not(A:Brand";v="8", "Chromium";v="111"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw '_token=tWhIqUXDwNfACqgzJwBdAVUmqIThHOw4myNYjKNU&shipping_rates_type=domestic&sender_postcode=42700&receiver_postcode=42700&destination_country=BWN&shipping_type=EZ&weight=10&length=10&width=10&height=10&item_value=' \
+  --compressed
+```
 2. Not all external 3rd party courier api will use the request body sent by UI, since all 3rd party APIs doesnt have the same request body field. For example, I am not sure what are the alias use for country etc used in all 3rd party courier API used. You may use what stated in the swagger example and change state and postcode and parcel dimensions + weight only for your testing, else might produce error.
 
 ## Future Plans <br>
