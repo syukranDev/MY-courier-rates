@@ -155,7 +155,7 @@ curl --location --request POST 'localhost:8900/portal/courier/get-rates' \
 }
 ```
 
-Note: If request body is different that what was checked thorughout database then it will fetch new data from external 3rd party courier API and inserted into databse for future querying (caching). (OR if request body is found to be same in database then output will be show database data) <br>
+Note: If request body is different that what was checked thorughout database, then it will fetch new data from all external 3rd party courier API and its response will be inserted into database for future querying (caching). (OR if request body is found to be same in database then output will be show database data) <br>
 
 ***Security Implemented*** <br>
 1. Request body validation using Joi <br>
