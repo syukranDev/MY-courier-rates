@@ -104,8 +104,56 @@ Courier Microservices using port 8902 <br>
 ***How to get into protected route*** <br>
 1. Get token from /portal/auth/login <br>
 you can put any username as you want, if the username is same as what presenteed in db, then the token will be updated. (or inserted if no match record founds.)<br>
-If you dont put token or expired token, unathorized message will be return. Kindly note token generated will expired in 30mins
+If you dont put token or expired token, unathorized message will be return. Kindly note token generated will expired in 30mins. <br>
+```
+curl --location --request POST 'localhost:8900/portal/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username" : "syukranDev"
+}'
+
+//Expected response: 
+{
+    "username": "syukranDev",
+    "auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN5dWtyYW5EZXYiLCJkYXRlIjoiMjAyMy0wMy0yN1QxMDo0MzozNS45MTFaIiwiaWF0IjoxNjc5OTEzODE1LCJleHAiOjE2Nzk5MTU2MTV9.uldJfEY3qc0LqSDnRtmyIIn6C56AL8vlhvsAsVpque0"
+}
+```
 2. Put token into Bearer Token header inside /portal/courier/get-rates <br>
+```
+curl --location --request POST 'localhost:8900/portal/courier/get-rates' \
+--header 'Authorization: Bearer <your-token-goes-here>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "domestic" : "Y",
+    "from_country": "MY",
+    "from_state": "Melaka",
+    "from_postcode": "75000",
+    "to_country": "MY",
+    "to_state": "Selangor",
+    "to_postcode": "42700",
+    "length": "11",
+    "width": "19",
+    "height": "11",
+    "type": "1",
+    "parcel_weight": "3"
+}'
+
+//Expected response:
+{
+    "code": 200,
+    "text": "success",
+    "data": [
+        {
+            "courier": "Citilink",
+            "rateInRinggit": 18
+        },
+        {
+            "courier": "J&T",
+            "rateInRiggit": 16.96
+        }
+    ]
+}
+```
 
 Note: If request body is different that what was checked thorughout database then it will fetch new data from external 3rd party courier API and inserted into databse for future querying (caching). (OR if request body is found to be same in database then output will be show database data) <br>
 
