@@ -211,7 +211,7 @@ curl 'https://www.jtexpress.my/shipping-rates' \
 
 ## Future Plans <br>
 1. TDD unit test
-2. environment config setup
+2. environment config setup, now all important credentials are hardcoded in the codes
 3. More 3rd party courier api
 
 
