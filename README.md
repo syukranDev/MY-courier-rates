@@ -1,5 +1,5 @@
 # New Update Goes Below
--TBA
+- **[RECOMENDDED]** Go to branch 'migrate-to-MongoDB' if you wish to avoid setup local mysql server and use monngodb for caching. You just need to run gateway and all microservices only. 
 
 # MY-courier-rates
 **Abstract**: <br>
@@ -162,7 +162,7 @@ Note: If request body is different that what was checked thorughout database, th
 
 ***Security Implemented*** <br>
 1. Request body validation using Joi <br>
-Any unwanted field in request payload or wrong datatype, will return error response on what field is missing/wrong <br>
+Any unwanted field in request payload or wrong datatype, will return error response on what field is missing/wrong. <br>
 
 <p align="center">
 <img src="https://gcdnb.pbrd.co/images/wKV8dRCxaTxW.png?o=1" width="75%">
@@ -205,7 +205,9 @@ curl 'https://www.jtexpress.my/shipping-rates' \
   --data-raw '_token=tWhIqUXDwNfACqgzJwBdAVUmqIThHOw4myNYjKNU&shipping_rates_type=domestic&sender_postcode=42700&receiver_postcode=42700&destination_country=BWN&shipping_type=EZ&weight=10&length=10&width=10&height=10&item_value=' \
   --compressed
 ```
-2. Not all external 3rd party courier API will use all the request body sent by UI, since all 3rd party APIs doesn't have the same request body field. For example, I am not sure what are the other alias use for country in Citilink API whilst J&T API doesn't use Country. You may use what stated in the Swagger example and change state and postcode and parcel dimensions + weight only for your testing, changing other field else might produce error.
+2. Not all external 3rd party courier API will use all the request body sent by UI, since all 3rd party APIs doesn't have the same request body field. For example, I am not sure what are the other alias use for country in Citilink API whilst J&T API doesn't use Country. You may use what stated in the Swagger example and change state and postcode and parcel dimensions + weight only for your testing, changing other field else might produce error. <br>
+
+3. I dont do any valdation on postcode and its coressponding state. Using any postcode out of state range may produce error.  <br>
 
 ## Future Plans <br>
 1. TDD unit test
