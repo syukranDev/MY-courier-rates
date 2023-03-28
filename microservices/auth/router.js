@@ -8,6 +8,7 @@ const YAML = require('yamljs');
 const router = express.Router()
 const app = express()
 const controller = require('./model/controller')
+const Employee = require('./model/mongo_schema')
 
 const swaggerDocument = YAML.load('./swagger.yaml')
 app.use('/portal/auth/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
@@ -34,6 +35,10 @@ app.use((err, req, res, next) => {
 })
 
 app.use('/portal/auth', router)  
+
+
+router.route('/testdb')
+    .post((...args) => controller.mongoConnectionTest(...args))
 
 router.route('/login')
     .post((...args) => controller.loginUser(...args))

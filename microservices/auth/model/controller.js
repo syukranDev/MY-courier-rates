@@ -5,6 +5,7 @@ var httpRequest = require('request')
 var utils = require('../components/utils')
 var Auth = require('./auth')
 const auth = new Auth()
+const UserAuth = require('./mongo_schema')
 
 let CONCURRENT_LOGIN = true
 
@@ -45,6 +46,7 @@ const verifyTokenCtrl = (req) => {
             const validate = utils.verifyJWT(bearerToken)
             if(validate.signature) { 
                 auth.verifyToken(req).then((result) => {
+                    console.log('===================== JWT token verified: ' + result.auth_token + " || " + result.updatedDate)
                     return resolve({ message: 'success', data : result || null})
                 }).catch((err) => {
                     return reject(err)
@@ -79,6 +81,18 @@ const logoutUserCtrl = (req) => {
 }
 
 
+const mongoConnectionTestCtrl = (req) => {
+    return new Promise(async  (resolve, reject) => {
+           await UserAuth.find({ username: req.body.username || null }).then(response => {
+            return resolve(response)
+           }).catch(err => {
+                return reject({ message : 'An error occured: ' + err.message})
+           })
+
+    })
+}
+
+
 module.exports.verifyToken = function verifyToken(req, res) {
 	//let start_benchmark = process.hrtime();
 	// logger.info()
@@ -107,6 +121,17 @@ module.exports.loginUser = function loginUser(req, res) {
 
 module.exports.test = function test(req, res) {
     return  res.json({ data: { id: 2, bookName: 'Bed Stories 2033'}})
+        
+}
+
+module.exports.mongoConnectionTest = function mongoConnectionTest(req, res) {
+    return mongoConnectionTestCtrl(req)
+        .then((results) => {
+            return res.send(results)
+        })
+        .catch(err => {
+            return res.status(err.statusCode).send(err)
+        })
         
 }
 

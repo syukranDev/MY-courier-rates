@@ -5,12 +5,20 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const app = require('./router')
+const mongoose = require('mongoose')
 
 var server;
 
 server = http.createServer(app).listen(PORT, function() {
 logger.info(`Auth Microservices start at port ${PORT}`);
 })
+
+const mongoURI = 'mongodb+srv://root_mongodb:root@sit-home.nif9h1n.mongodb.net/testdb?retryWrites=true&w=majority'
+mongoose.connect(mongoURI, { useNewUrlParser: true })
+const db = mongoose.connection
+
+db.on('error', err => console.log(err))
+db.once('open', err => console.log('MongooseDB connection successfully'))
 
 
 process.on('unhandledRejection', function (reason, p) {
