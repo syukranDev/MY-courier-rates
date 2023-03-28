@@ -5,40 +5,27 @@ const logger = require("../logger").logger;
 const axios = require('axios');
 const qs = require('querystring');
 const { JSDOM } = require('jsdom');
+const courierRates = require('../../model/mongo_schema')
+
 
 var getRates = arg => {
     return new Promise(async (resolve, reject) => {
-            let query = ` SELECT * FROM getrates WHERE 
-            from_country =? AND
-            from_state =? AND 
-            from_postcode =? AND
-            to_country =? AND 
-            to_state =? AND 
-            to_postcode =? AND 
-            length =? AND 
-            width =? AND 
-            height =? AND 
-            type =? AND
-            parcel_weight =?
-            `
-            let data = [
-                arg.body.from_country,
-                arg.body.from_state, 
-                arg.body.from_postcode,
-                arg.body.to_country, 
-                arg.body.to_state, 
-                arg.body.to_postcode, 
-                arg.body.length, 
-                arg.body.width, 
-                arg.body.height, 
-                arg.body.type,
-                arg.body.parcel_weight
-            ]
-            
+            let data = {
+                from_country : arg.body.from_country,
+                from_state : arg.body.from_state,
+                from_postcode : arg.body.from_postcode,
+                to_country : arg.body.to_country,
+                to_state : arg.body.to_state,
+                to_postcode : arg.body.to_postcode,
+                length : arg.body.length,
+                width : arg.body.width,
+                height : arg.body.height,
+                type : arg.body.type,
+                parcel_weight : arg.body.parcel_weight
+            }
             //Below to check from database first if we have same request.body used before, if no match case in database then we get data from Couriers API and save it into database.
             //If there is match case of request.body, then it will fetch data from our database.
-            const checkRateExist= await sql.executeQuery(query, data)
-
+            const checkRateExist = await courierRates.find(data)
             if (!checkRateExist.length) {
                 let dataPromise1 = {
                     "origin_country": arg.body.from_country, 
@@ -58,7 +45,7 @@ var getRates = arg => {
                 }
     
                 const dataPromise2 = qs.stringify({
-                    '_token': 'tWhIqUXDwNfACqgzJwBdAVUmqIThHOw4myNYjKNU', //need to change this when expired appx 24hours?
+                    '_token': '5NTbN5tkT4KfXlitVG04FRSOlWmfn0H4Ero4gvzf', //need to change this when expired appx 24hours?
                     'shipping_rates_type': arg.body.domestic == 'Y' ? 'domestic' : 'international',
                     'sender_postcode': arg.body.from_postcode,
                     'receiver_postcode': arg.body.to_postcode,
@@ -88,7 +75,7 @@ var getRates = arg => {
                                             'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 
                                             'x-requested-with': 'XMLHttpRequest', 
                                             //need to change below cookie xsrf token when expired appx 24hours?
-                                            'Cookie': '_ga=GA1.2.1799226497.1678279692; _gid=GA1.2.277345308.1679729433; XSRF-TOKEN=eyJpdiI6IjEyTmszR1htVkU3OUJXOHpiOU1Tdnc9PSIsInZhbHVlIjoiQTBMeVdCMnZIcEdHL0lBcGZqcktLTkQ0QTNCWVJpMVBOOFhmVy81US9yWG5BS2ZsU0xNUDJNUy82UmYwUEMzeVNqdTVrSVQxamdHWStMaGkxOEs5aXM0Slgra1pTY1NlZlJxdFhmMTBGclhveHhBajJ3c0JseGJETWxGOG1XMFMiLCJtYWMiOiIwNjQxMGQwMzJkOTM3MDI2NTFhZjIzNmVkYzIzMDg2NmNhZmIwMWY3OTljN2UzMTZiODk5MzYxZTllOTA3YTQwIn0%3D; jt_express_malaysia_session=eyJpdiI6IkI0dHJmZnl3VkhMczlXQ1dHYU91bFE9PSIsInZhbHVlIjoiK3ZUK1A0akZ0bGd0Q1g5S0E5ZEhDU1lhV0M3S093T2tqUDlhV2VYaE1pY2s0cjZ6VVBVOXVxdG5IK2U2K29uc3h3SWVXOHhDYWI3dU0wNDNaUEZ6bmR1eDB0MXgrWjFwOWZaL1oreWlaVUlodkhFenVmTUNNTG5vRExDbTZPVVIiLCJtYWMiOiI0ZTQ1ODBiMzMzMDRmNzc3NDg0ODY3ODcxZjg2YTM1YWRjOGNmYmI0NGY2ZTA0NDM2MWRiOGRmZDc5YTRjYjFmIn0%3D; _gat_gtag_UA_127851323_1=1',  
+                                            'Cookie': '_ga=GA1.2.1799226497.1678279692; XSRF-TOKEN=eyJpdiI6Ikg2V1NvdjgzQVdWNkRFT214T3o4Q2c9PSIsInZhbHVlIjoiVEJkcDdoK2NzYk80QjEzTVlxaUxhZk5ZYXhlbXVWdkN3RG8wd2xnd1R6M0Q1RXZNMzJVSGR4SDgxMUtsOWxFMnppME80cHA0ZVRJdkdSa3c3UDBnRWVFUHFoVUxLVmFPNi85R1ZzQS91WWZMM3NyejA0R0d6YTBUOWNvajVNWVAiLCJtYWMiOiI1OGIwZjliOWMyNTg5MzFiMTk1MDc1YWJjMDkxNDMzYmY4OGNmOWQ3ZmQ4NjFmNWUyOTEzMzQ1YWRlZDRlMGM1In0%3D; jt_express_malaysia_session=eyJpdiI6IkwyWWtUUXpZb05tSE5KS2NSaFlkeGc9PSIsInZhbHVlIjoiQUtZV1RLbHNEVHUzNURZbDRpci9idzJEbzlMUDRMdFBuY0VFaFV5VHBmK3NmOFdoVlozUVVYU2VZOXFjL2VvYno4REJ3c0o1N2swZUk5WlBIRXN0NXd6M05ZbTZZaW5ab0NQWVJpU1pXbk5tUkdNVDF4dElJY2pXVFU1N2l1Zi8iLCJtYWMiOiJmZGMxYjEyMTYyNmM1NjIyNjNlNjFiNjYyYWIyMGZhYWRiODM1YTE0YjQ0NzJkMmE4YzMyYzllMDU1OTQ1ZTk0In0%3D; _gid=GA1.2.514885323.1680020860; _gat_gtag_UA_127851323_1=1',  
                                         },
                                         data : dataPromise2
                                     })
@@ -119,27 +106,34 @@ var getRates = arg => {
 
                 }).then(async result => {
                     let courierRate = JSON.stringify(result)
-                    let query = ` INSERT INTO getrates (domestic, from_country, from_state, from_postcode, to_country, to_state, to_postcode, length, width, height, type, parcel_weight, doc_weight, rates)  
-                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', ?)  
-                                `
-                    let data = [
-                        arg.body.domestic,
-                        arg.body.from_country,
-                        arg.body.from_state, 
-                        arg.body.from_postcode,
-                        arg.body.to_country, 
-                        arg.body.to_state, 
-                        arg.body.to_postcode, 
-                        arg.body.length, 
-                        arg.body.width, 
-                        arg.body.height, 
-                        arg.body.type,
-                        arg.body.parcel_weight,
-                        courierRate
-                    ]
+                    let data = {
+                        domestic: arg.body.domestic,
+                        from_country: arg.body.from_country,
+                        from_state: arg.body.from_state, 
+                        from_postcode: arg.body.from_postcode,
+                        to_country: arg.body.to_country, 
+                        to_state: arg.body.to_state, 
+                        to_postcode: arg.body.to_postcode, 
+                        length: arg.body.length, 
+                        width: arg.body.width, 
+                        height: arg.body.height, 
+                        type: arg.body.type,
+                        parcel_weight: arg.body.parcel_weight,
+                        doc_weight: null, //we make it null siince in this project we focused on parcel weight only as not all external API has doc_weight
+                        rates: courierRate
+                    }
 
-                    await sql.executeQuery(query, data)
+                    let newCourierRates = new courierRates(data)
+
+                    await newCourierRates.save() //hidden process to save into database for next same querying
                     .then(() => {
+                        logger.info('=========================================================================')
+                        logger.info('=========================================================================')
+                        logger.info('====================== Data fetched from : External 3rd Party Courier API')
+                        //
+                        console.log('=========================================================================')
+                        console.log('=========================================================================')
+                        console.log('=========================================================================')
                         console.log('====================== Data fetched from : External 3rd Party Courier API')
                         return resolve(result)
                     })
@@ -171,11 +165,17 @@ var getRates = arg => {
                 })
     
             } else {
-                //Get saved cache from database
+                //Get saved cache from database if all request body is same from database
                 const data = JSON.parse(checkRateExist[0].rates)
-                // logger.info('====================== Data fetched from : Database')
+                logger.info('=========================================================================')
+                logger.info('=========================================================================')
+                logger.info('====================== Data fetched from : Database')
+                //
+                console.log('=========================================================================')
+                console.log('=========================================================================')
+                console.log('=========================================================================')
                 console.log('====================== Data fetched from : Database')
-                 return resolve(data)
+                return resolve(data)
             }
 
     })
