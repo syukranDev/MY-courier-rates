@@ -14,7 +14,7 @@
     "body-parser": "^1.20.2",
     "concurrently": "^8.0.1",
     "express": "^4.18.2",
-    "express-gateway": "^0.0.6",
+    "express-gateway": "^1.16.11",
     "fast-safe-stringify": "^2.1.1",
     "index.js": "^0.0.3",
     "joi": "^17.9.1",
