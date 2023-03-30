@@ -45,7 +45,7 @@ var getRates = arg => {
                 }
     
                 const dataPromise2 = qs.stringify({
-                    '_token': '5NTbN5tkT4KfXlitVG04FRSOlWmfn0H4Ero4gvzf', //need to change this when expired appx 24hours?
+                    '_token': 'v1zAgU1pUEw4GXmrRt0wOcXnaTFDsB7aWNNVlul5', //need to change this when expired appx 24hours?
                     'shipping_rates_type': arg.body.domestic == 'Y' ? 'domestic' : 'international',
                     'sender_postcode': arg.body.from_postcode,
                     'receiver_postcode': arg.body.to_postcode,
@@ -75,7 +75,7 @@ var getRates = arg => {
                                             'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 
                                             'x-requested-with': 'XMLHttpRequest', 
                                             //need to change below cookie xsrf token when expired appx 24hours?
-                                            'Cookie': '_ga=GA1.2.1799226497.1678279692; XSRF-TOKEN=eyJpdiI6Ikg2V1NvdjgzQVdWNkRFT214T3o4Q2c9PSIsInZhbHVlIjoiVEJkcDdoK2NzYk80QjEzTVlxaUxhZk5ZYXhlbXVWdkN3RG8wd2xnd1R6M0Q1RXZNMzJVSGR4SDgxMUtsOWxFMnppME80cHA0ZVRJdkdSa3c3UDBnRWVFUHFoVUxLVmFPNi85R1ZzQS91WWZMM3NyejA0R0d6YTBUOWNvajVNWVAiLCJtYWMiOiI1OGIwZjliOWMyNTg5MzFiMTk1MDc1YWJjMDkxNDMzYmY4OGNmOWQ3ZmQ4NjFmNWUyOTEzMzQ1YWRlZDRlMGM1In0%3D; jt_express_malaysia_session=eyJpdiI6IkwyWWtUUXpZb05tSE5KS2NSaFlkeGc9PSIsInZhbHVlIjoiQUtZV1RLbHNEVHUzNURZbDRpci9idzJEbzlMUDRMdFBuY0VFaFV5VHBmK3NmOFdoVlozUVVYU2VZOXFjL2VvYno4REJ3c0o1N2swZUk5WlBIRXN0NXd6M05ZbTZZaW5ab0NQWVJpU1pXbk5tUkdNVDF4dElJY2pXVFU1N2l1Zi8iLCJtYWMiOiJmZGMxYjEyMTYyNmM1NjIyNjNlNjFiNjYyYWIyMGZhYWRiODM1YTE0YjQ0NzJkMmE4YzMyYzllMDU1OTQ1ZTk0In0%3D; _gid=GA1.2.514885323.1680020860; _gat_gtag_UA_127851323_1=1',  
+                                            'Cookie': '_ga=GA1.2.1799226497.1678279692; XSRF-TOKEN=eyJpdiI6InRGVDhHZnBLbzBUSWdCdC9PSnJZb3c9PSIsInZhbHVlIjoiS0hFUFhEUVRUQkhYVkJ0Y2NZQ3hISkJyZzNma0lSSjk3TkpXZzk2QS9oOFpVWE9UVXREUFF2bTNNdnRSZHR2NHo3TEF1M29ETkIzMmExclpwNG0yeVJib0ZxQTFEVHk2ejVIUERTZmRSUEpoQnhvTmNVK0VEbkw1K0FxNWhhaGEiLCJtYWMiOiIxYmZhMTg0YzljNGQ5M2UxYTRhNDgzODNlYTIxMDNiYjMxMjkxYjVkOTVjMTMxY2ZkZGYxZGU4NjA0MDNmY2JjIn0; jt_express_malaysia_session=eyJpdiI6IkwyWWtUUXpZb05tSE5KS2NSaFlkeGc9PSIsInZhbHVlIjoiQUtZV1RLbHNEVHUzNURZbDRpci9idzJEbzlMUDRMdFBuY0VFaFV5VHBmK3NmOFdoVlozUVVYU2VZOXFjL2VvYno4REJ3c0o1N2swZUk5WlBIRXN0NXd6M05ZbTZZaW5ab0NQWVJpU1pXbk5tUkdNVDF4dElJY2pXVFU1N2l1Zi8iLCJtYWMiOiJmZGMxYjEyMTYyNmM1NjIyNjNlNjFiNjYyYWIyMGZhYWRiODM1YTE0YjQ0NzJkMmE4YzMyYzllMDU1OTQ1ZTk0In0%3D; _gid=GA1.2.514885323.1680020860; _gat_gtag_UA_127851323_1=1',  
                                         },
                                         data : dataPromise2
                                     })
