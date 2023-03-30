@@ -1,5 +1,5 @@
 # New Update Goes Below
-- **[RECOMENDDED]** Go to branch 'migrate-to-MongoDB' if you wish to avoid setup local mysql server and use monngodb for caching. You just need to run gateway and all microservices only. 
+- **[RECOMENDDED]** Go to branch 'migrate-to-MongoDB' if you wish to avoid setup local mysql server and use monngodb for caching. Run `npm start` will run gateway and microservices concurrently
 
 # MY-courier-rates
 **Abstract**: <br>
